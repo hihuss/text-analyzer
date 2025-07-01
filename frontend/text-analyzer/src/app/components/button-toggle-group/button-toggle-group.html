@@ -1,0 +1,5 @@
+<mat-button-toggle-group [formControl]="control">
+  @for (option of options; track $index) {
+    <mat-button-toggle [value]="option">{{ option | titlecase }}</mat-button-toggle>
+  }
+</mat-button-toggle-group>
