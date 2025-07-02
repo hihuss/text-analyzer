@@ -7,6 +7,8 @@ import {ButtonToggleGroup} from './components/button-toggle-group/button-toggle-
 import {FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ANALYSIS_MODE, OPERATING_MODE} from './utils/constants';
 import {FormKeys} from './utils/form-keys';
+import {analyzeText} from './utils/helper-functions';
+import {AnalysisHttpService} from './services/analysis-http.service';
 
 @Component({
   selector: 'app-root',
@@ -22,15 +24,18 @@ import {FormKeys} from './utils/form-keys';
     ReactiveFormsModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  protected readonly ANALYSIS_MODE = ANALYSIS_MODE;
-  protected readonly OPERATING_MODE = OPERATING_MODE;
+  protected readonly ANALYSIS_MODE = Object.values(ANALYSIS_MODE);
+  protected readonly OPERATING_MODE = Object.values(OPERATING_MODE);
   protected readonly FormKeys = FormKeys;
-  protected formGroup: FormGroup;
+  formGroup: FormGroup;
+
+  matchCount = 0; // FIXME: this is temporarily
 
   private fb = inject(NonNullableFormBuilder);
+  private analyseHttpService = inject(AnalysisHttpService);
 
   constructor() {
    this.formGroup = this.fb.group({
@@ -50,8 +55,17 @@ export class AppComponent {
   }
 
   analyze() {
-    console.log('analyzing.....')
-    // TODO: implement
+    if (this.formGroup.invalid) {
+      return;
+    }
+
+    const textToAnalyze = this.getControl(FormKeys.Text).value;
+    const analysisMode = this.getControl(FormKeys.AnalysisMode).value;
+    if (OPERATING_MODE.Offline === this.getControl(FormKeys.OperatingMode).value) {
+      this.matchCount = analyzeText(textToAnalyze, analysisMode);
+    } else {
+      this.analyseHttpService.analyzeText();
+    }
   }
 
 }
