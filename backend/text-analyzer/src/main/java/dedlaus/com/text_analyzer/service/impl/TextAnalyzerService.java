@@ -1,9 +1,16 @@
 package dedlaus.com.text_analyzer.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dedlaus.com.text_analyzer.entity.AnalysisResult;
+import dedlaus.com.text_analyzer.repository.AnalysisResultRepository;
 import dedlaus.com.text_analyzer.service.ITextAnalyzerService;
 import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,10 +19,19 @@ import java.util.stream.Collectors;
 @Service
 public class TextAnalyzerService implements ITextAnalyzerService {
 
+    AnalysisResultRepository analysisResultRepository;
+    ObjectMapper objectMapper;
+
+    @Autowired
+    public TextAnalyzerService(AnalysisResultRepository analysisResultRepository, ObjectMapper objectMapper) {
+        this.analysisResultRepository = analysisResultRepository;
+        this.objectMapper = objectMapper;
+    }
+
     @Override
-    public Map<String, Long> analyzeText(String text, AnalysisMode analysisMode) {
+    public AnalysisResult analyzeText(String text, AnalysisMode analysisMode) {
         if (text == null || text.isEmpty()) {
-            return Map.of();
+            return null;
         }
 
         String vowelRegex = "[aeiouAEIOU]";
@@ -25,8 +41,25 @@ public class TextAnalyzerService implements ITextAnalyzerService {
         Pattern pattern = Pattern.compile(regexToUse, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(text);
 
-        return matcher.results()
+        Map<String, Long> analysisResult = matcher.results()
                 .map(matchResult -> matchResult.group().toLowerCase())
                 .collect(Collectors.groupingBy(letter -> letter, Collectors.counting()));
+        try {
+            String jsonResult = objectMapper.writeValueAsString(analysisResult);
+            return saveAnalysisResult(text, analysisMode, jsonResult);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e); // TODO: throw custom exception (i.e. global exception handling)
+        }
+
+    }
+
+    private AnalysisResult saveAnalysisResult(String text, AnalysisMode analysisMode, String jsonResult) {
+        AnalysisResult analysisResult = new AnalysisResult(text, analysisMode, jsonResult);
+        return analysisResultRepository.save(analysisResult);
+    }
+
+    @Override
+    public List<AnalysisResult> getPreviousResults() {
+        return analysisResultRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 }

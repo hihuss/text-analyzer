@@ -1,10 +1,13 @@
 package dedlaus.com.text_analyzer.service;
 
+import dedlaus.com.text_analyzer.entity.AnalysisResult;
 import dedlaus.com.text_analyzer.utils.AnalysisMode;
 
-import java.util.Map;
+import java.util.List;
 
 public interface ITextAnalyzerService {
 
-    Map<String, Long> analyzeText(String text, AnalysisMode analysisMode);
+    AnalysisResult analyzeText(String text, AnalysisMode analysisMode);
+
+    List<AnalysisResult> getPreviousResults();
 }
