@@ -30,10 +30,20 @@ public class TextAnalyzerService implements ITextAnalyzerService {
 
     @Override
     public AnalysisResult analyzeText(String text, AnalysisMode analysisMode) {
-        if (text == null || text.isEmpty()) {
+        if (text == null || text.trim().isEmpty()) {
             return null;
         }
+        Map<String, Long> analysisResult = findMatches(text, analysisMode);
 
+        try {
+            String jsonResult = objectMapper.writeValueAsString(analysisResult);
+            return saveAnalysisResult(text, analysisMode, jsonResult);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e); // TODO: throw custom exception (i.e. global exception handling)
+        }
+    }
+
+    public Map<String, Long> findMatches(String text, AnalysisMode analysisMode) {
         String vowelRegex = "[aeiouAEIOU]";
         String consonantRegex = "[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]";
         String regexToUse = (AnalysisMode.Vowels == analysisMode) ? vowelRegex : consonantRegex;
@@ -41,16 +51,9 @@ public class TextAnalyzerService implements ITextAnalyzerService {
         Pattern pattern = Pattern.compile(regexToUse, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(text);
 
-        Map<String, Long> analysisResult = matcher.results()
+        return matcher.results()
                 .map(matchResult -> matchResult.group().toLowerCase())
                 .collect(Collectors.groupingBy(letter -> letter, Collectors.counting()));
-        try {
-            String jsonResult = objectMapper.writeValueAsString(analysisResult);
-            return saveAnalysisResult(text, analysisMode, jsonResult);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e); // TODO: throw custom exception (i.e. global exception handling)
-        }
-
     }
 
     private AnalysisResult saveAnalysisResult(String text, AnalysisMode analysisMode, String jsonResult) {
