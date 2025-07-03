@@ -8,7 +8,7 @@
         <version>3.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>dedlaus.com</groupId>
+    <groupId>dedalus.com</groupId>
     <artifactId>text-analyzer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>text-analyzer</name>

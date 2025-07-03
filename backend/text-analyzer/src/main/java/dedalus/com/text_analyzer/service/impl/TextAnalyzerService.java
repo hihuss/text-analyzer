@@ -1,11 +1,11 @@
-package dedlaus.com.text_analyzer.service.impl;
+package dedalus.com.text_analyzer.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dedlaus.com.text_analyzer.entity.AnalysisResult;
-import dedlaus.com.text_analyzer.repository.AnalysisResultRepository;
-import dedlaus.com.text_analyzer.service.ITextAnalyzerService;
-import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import dedalus.com.text_analyzer.entity.AnalysisResult;
+import dedalus.com.text_analyzer.repository.AnalysisResultRepository;
+import dedalus.com.text_analyzer.service.ITextAnalyzerService;
+import dedalus.com.text_analyzer.utils.AnalysisMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

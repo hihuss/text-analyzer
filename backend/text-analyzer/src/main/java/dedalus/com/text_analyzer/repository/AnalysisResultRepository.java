@@ -1,6 +1,6 @@
-package dedlaus.com.text_analyzer.repository;
+package dedalus.com.text_analyzer.repository;
 
-import dedlaus.com.text_analyzer.entity.AnalysisResult;
+import dedalus.com.text_analyzer.entity.AnalysisResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

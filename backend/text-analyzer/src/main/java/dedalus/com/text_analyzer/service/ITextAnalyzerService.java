@@ -1,7 +1,7 @@
-package dedlaus.com.text_analyzer.service;
+package dedalus.com.text_analyzer.service;
 
-import dedlaus.com.text_analyzer.entity.AnalysisResult;
-import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import dedalus.com.text_analyzer.entity.AnalysisResult;
+import dedalus.com.text_analyzer.utils.AnalysisMode;
 
 import java.util.List;
 

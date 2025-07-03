@@ -1,10 +1,10 @@
-package dedlaus.com.text_analyzer.mapper;
+package dedalus.com.text_analyzer.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dedlaus.com.text_analyzer.dto.AnalysisResultDTO;
-import dedlaus.com.text_analyzer.entity.AnalysisResult;
+import dedalus.com.text_analyzer.dto.AnalysisResultDTO;
+import dedalus.com.text_analyzer.entity.AnalysisResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;

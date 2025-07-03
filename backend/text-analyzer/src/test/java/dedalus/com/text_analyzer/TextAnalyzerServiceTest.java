@@ -1,8 +1,8 @@
-package dedlaus.com.text_analyzer;
+package dedalus.com.text_analyzer;
 
-import dedlaus.com.text_analyzer.entity.AnalysisResult;
-import dedlaus.com.text_analyzer.service.impl.TextAnalyzerService;
-import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import dedalus.com.text_analyzer.entity.AnalysisResult;
+import dedalus.com.text_analyzer.service.impl.TextAnalyzerService;
+import dedalus.com.text_analyzer.utils.AnalysisMode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

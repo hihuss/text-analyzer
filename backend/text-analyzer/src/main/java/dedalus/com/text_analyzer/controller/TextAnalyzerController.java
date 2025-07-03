@@ -1,10 +1,10 @@
-package dedlaus.com.text_analyzer.controller;
+package dedalus.com.text_analyzer.controller;
 
-import dedlaus.com.text_analyzer.dto.AnalysisResultDTO;
-import dedlaus.com.text_analyzer.entity.AnalysisResult;
-import dedlaus.com.text_analyzer.mapper.AnalysisResultMapper;
-import dedlaus.com.text_analyzer.service.impl.TextAnalyzerService;
-import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import dedalus.com.text_analyzer.dto.AnalysisResultDTO;
+import dedalus.com.text_analyzer.entity.AnalysisResult;
+import dedalus.com.text_analyzer.mapper.AnalysisResultMapper;
+import dedalus.com.text_analyzer.service.impl.TextAnalyzerService;
+import dedalus.com.text_analyzer.utils.AnalysisMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

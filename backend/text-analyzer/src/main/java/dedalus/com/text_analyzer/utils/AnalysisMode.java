@@ -1,4 +1,4 @@
-package dedlaus.com.text_analyzer.utils;
+package dedalus.com.text_analyzer.utils;
 
 public enum AnalysisMode {
     Vowels,

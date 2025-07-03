@@ -1,6 +1,6 @@
-package dedlaus.com.text_analyzer.entity;
+package dedalus.com.text_analyzer.entity;
 
-import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import dedalus.com.text_analyzer.utils.AnalysisMode;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

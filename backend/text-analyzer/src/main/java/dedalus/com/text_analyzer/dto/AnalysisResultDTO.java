@@ -1,6 +1,6 @@
-package dedlaus.com.text_analyzer.dto;
+package dedalus.com.text_analyzer.dto;
 
-import dedlaus.com.text_analyzer.utils.AnalysisMode;
+import dedalus.com.text_analyzer.utils.AnalysisMode;
 import lombok.Data;
 
 import java.time.LocalDateTime;
