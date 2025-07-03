@@ -7,7 +7,17 @@ import {provideHttpClient} from '@angular/common/http';
 import {By} from '@angular/platform-browser';
 import {ANALYSIS_MODE, OPERATING_MODE} from './utils/constants';
 import {AnalysisHttpService} from './services/analysis-http.service';
+import {AnalysisResult} from './models/analysis-result.model';
+import {of} from 'rxjs';
 
+
+const mockAnalysisResult: AnalysisResult = {
+  id: 1,
+  text: 'test',
+  analysisMode: ANALYSIS_MODE.Vowels,
+  results: {"a": 1, "e": 2},
+  createdAt: new Date().toISOString()
+};
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -16,7 +26,10 @@ describe('AppComponent', () => {
   let httpServiceSpy: jasmine.SpyObj<AnalysisHttpService>;
 
   beforeEach(async () => {
-    httpServiceSpy = jasmine.createSpyObj('AnalysisHttpService', ['analyzeText']);
+    httpServiceSpy = jasmine.createSpyObj('AnalysisHttpService', ['analyzeText', 'getHistoryData']);
+
+    httpServiceSpy.analyzeText.and.returnValue(of(mockAnalysisResult));
+    httpServiceSpy.getHistoryData.and.returnValue(of([mockAnalysisResult]));
 
     form = new FormGroup({
       [FormKeys.Text]: new FormControl('', [Validators.required]),
@@ -29,7 +42,7 @@ describe('AppComponent', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideHttpClient(),
-        { provide: AnalysisHttpService, useValue: httpServiceSpy },
+        {provide: AnalysisHttpService, useValue: httpServiceSpy},
       ]
     }).compileComponents();
 
@@ -105,6 +118,8 @@ describe('AppComponent', () => {
     button.nativeElement.click();
     fixture.detectChanges();
 
+    component.historyData$.subscribe();
+
     expect(httpServiceSpy.analyzeText.calls.count()).toBe(1);
   });
 
@@ -118,7 +133,8 @@ describe('AppComponent', () => {
     button.nativeElement.click();
     fixture.detectChanges();
 
-    expect(component.matchCount).toBe(299);
+    expect(component.offlineResults.length).toBe(1);
+
   });
 
   it('should return correct results when analyzing vowels in text in frontend ', () => {
@@ -130,9 +146,27 @@ describe('AppComponent', () => {
     button.nativeElement.click();
     fixture.detectChanges();
 
-    expect(component.matchCount).toBe(168);
+    expect(component.offlineResults.length).toBe(1);
+    const totalCount = component.offlineResults.reduce((acc, record) => {
+      if (record.results) {
+        const sum = Object.values(record.results).reduce((a, b) => a + b, 0);
+        acc += sum;
+      }
+      return acc;
+    }, 0);
+    expect(totalCount).toBe(168);
   });
 
+  it('should return 0 if text empty  ', () => {
+    setFormValues(OPERATING_MODE.Offline, ANALYSIS_MODE.Vowels, '');
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.query(By.css('button[type="submit"]'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(component.offlineResults.length).toBe(0);
+  });
 
   function setFormValues(operatingMode?: OPERATING_MODE, analysisMode?: ANALYSIS_MODE, text?: string) {
     const defaultText = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.';
