@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class TextAnalyzerService implements ITextAnalyzerService {
 
-    AnalysisResultRepository analysisResultRepository;
-    ObjectMapper objectMapper;
+    protected final AnalysisResultRepository analysisResultRepository;
+    protected final ObjectMapper objectMapper;
 
     @Autowired
     public TextAnalyzerService(AnalysisResultRepository analysisResultRepository, ObjectMapper objectMapper) {

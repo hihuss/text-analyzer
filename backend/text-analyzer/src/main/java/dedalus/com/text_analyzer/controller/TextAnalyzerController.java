@@ -33,7 +33,6 @@ public class TextAnalyzerController {
     @GetMapping(value = "/history-data")
     public ResponseEntity<List<AnalysisResultDTO>> getHistoryData() {
         List<AnalysisResult> previousResults = this.textAnalyzerService.getPreviousResults();
-
         return ResponseEntity.ok().body(analysisResultMapper.mapToDToList(previousResults));
     }
 }
