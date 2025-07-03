@@ -1,11 +1,11 @@
 export enum ANALYSIS_MODE {
-  Vowels ='vowels',
-  Consonants = 'consonants'
-};
+  Vowels = 'Vowels',
+  Consonants = 'Consonants'
+}
 
 export enum OPERATING_MODE {
-  Online = 'online',
-  Offline = 'offline'
+  Online = 'Online',
+  Offline = 'Offline'
 }
 
 

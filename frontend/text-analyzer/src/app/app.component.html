@@ -20,29 +20,35 @@
       <div class="actions">
         <div class="options">
           <div class="toggle-group">
-            <p> Analysis mode: </p>
+            <p> Analysis mode* </p>
             <app-button-toggle-group [options]="ANALYSIS_MODE"
                                      [control]="getControl(FormKeys.AnalysisMode)">
             </app-button-toggle-group>
           </div>
 
           <div class="toggle-group">
-            <p> Operating mode: </p>
+            <p> Operating mode* </p>
             <app-button-toggle-group [options]="OPERATING_MODE"
                                      [control]="getControl(FormKeys.OperatingMode)">
             </app-button-toggle-group>
           </div>
 
           <button mat-button type="button" (click)="resetOptions()">Reset selection</button>
+          <button mat-button type="button" (click)="getControl(FormKeys.Text).reset()">Clear text</button>
         </div>
 
         <button mat-flat-button
                 type="submit"
+                style="align-self: end"
                 [disabled]="formGroup.invalid">
           Analyze
         </button>
       </div>
     </form>
+
+    <div class="history">
+      <app-accordion [panels]="combineResults(historyData$ | async)"></app-accordion>
+    </div>
   </div>
 
 </main>

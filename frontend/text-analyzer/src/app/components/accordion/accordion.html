@@ -1,0 +1,24 @@
+<mat-accordion [multi]="true">
+  @for (panel of panels; track panel.id) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ panel.createdAt | date:'dd.MM.yyyy HH:mm:ss' }}</mat-panel-title>
+        <mat-panel-description>{{ panel.analysisMode }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="split-container">
+        <div class="records">
+          @if (getResultEntries(panel.results).length === 0) {
+            No data.
+          } @else {
+            @for (entry of getResultEntries(panel.results); track $index) {
+              Letter '<span style="font-weight: bold">{{ entry[0] }}</span>' appears
+              <span style="font-weight: bold">{{ entry[1] }} </span> times
+              <br/>
+            }
+          }
+        </div>
+        <span> {{ panel.text }}</span>
+      </div>
+    </mat-expansion-panel>
+  }
+</mat-accordion>
